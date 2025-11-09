@@ -32,7 +32,7 @@ Used the AWS CLI to create a unique bucket with a timestamp for uniqueness:
 REGION="us-east-1"
 BUCKET="nick-cloud-resume-$(date +%s)"
 
-aws s3api create-bucket   --bucket "$BUCKET"   --region "$REGION"
+aws s3api create-bucket --bucket "$BUCKET" --region "$REGION"
 ```
 
 > Note: For `us-east-1`, no `--create-bucket-configuration` flag is required.
@@ -51,7 +51,7 @@ This mirrors all local files from `frontend/` to S3, deleting any stale files.
 Enabled S3 static website hosting:
 
 ```bash
-aws s3 website s3://$BUCKET/   --index-document index.html   --error-document error.html
+aws s3 website s3://$BUCKET/ --index-document index.html --error-document error.html
 ```
 
 This tells S3 which file to serve as the homepage and what to display for errors.
@@ -74,7 +74,7 @@ cat > /tmp/policy.json <<EOF
 }
 EOF
 
-aws s3api put-bucket-policy   --bucket "$BUCKET"   --policy file:///tmp/policy.json
+aws s3api put-bucket-policy --bucket "$BUCKET" --policy file:///tmp/policy.json
 ```
 
 ### 5. Verify the website
