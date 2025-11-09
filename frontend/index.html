@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nicholas Halterman — Cloud Resume (WIP)</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { margin: 0; background: #f7f7f8; color: #111; }
+    .wrap { max-width: 800px; margin: 4rem auto; padding: 0 1rem; }
+    header { margin-bottom: 2rem; }
+    h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+    .tag { display: inline-block; font-size: .9rem; color: #555; }
+    section { background: #fff; border: 1px solid #e6e6ea; border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; }
+    h2 { font-size: 1.1rem; margin: 0 0 .5rem; }
+    ul { margin: .25rem 0 0 1.1rem; }
+    footer { margin-top: 2rem; font-size: .9rem; color: #666; }
+    a { color: #0b57d0; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: #f0f2f5; padding: .1rem .35rem; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Nicholas Halterman</h1>
+      <div class="tag">AWS Cloud Resume Challenge — Work in Progress</div>
+    </header>
+
+    <section>
+      <h2>About</h2>
+      <p>
+        This is a lightweight placeholder while I stand up the AWS infrastructure (S3, CloudFront,
+        Route 53, Lambda, API Gateway, DynamoDB) and CI/CD. Design polish coming soon.
+      </p>
+    </section>
+
+    <section>
+      <h2>Highlights</h2>
+      <ul>
+        <li>Army National Guard — 25U Signal Support (SATCOM / radio)</li>
+        <li>Serverless + IaC focus; GitHub Actions for automated deploys</li>
+        <li>Target role: Communications / Satellite Communications Technician</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Links</h2>
+      <ul>
+        <li><a href="mailto:nicholas@example.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/your-handle/cloud-resume-challenge-aws" target="_blank" rel="noopener">GitHub Repo</a></li>
+        <li><a href="#" id="resume-pdf">Résumé (PDF)</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Visitor Count</h2>
+      <p><strong id="counter">—</strong></p>
+    </section>
+
+    <footer>
+      <p>v0.1 — Infra coming online. © <span id="year"></span> Nicholas Halterman</p>
+    </footer>
+  </div>
+
+  <!-- TODO: Replace with your API Gateway invoke URL when backend is ready -->
+  <script>
+    // Year stamp
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Visitor counter placeholder (safe no-op)
+    (async () => {
+      try {
+        // const res = await fetch('https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/prod/count');
+        // const data = await res.json();
+        // document.getElementById('counter').textContent = data.count;
+
+        // Temporary local placeholder:
+        document.getElementById('counter').textContent = 'online soon';
+      } catch {
+        document.getElementById('counter').textContent = 'online soon';
+      }
+    })();
+  </script>
+</body>
+</html>

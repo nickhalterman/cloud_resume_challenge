@@ -1,0 +1,22 @@
+# OS files
+.DS_Store
+
+# Credentials and keys
+*.pem
+*.pub
+
+# Python cache and build
+__pycache__/
+*.pyc
+
+# AWS SAM / Terraform build dirs
+.aws-sam/
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+
+# Node modules (if added later)
+node_modules/
+
+# Environment files
+.env
