@@ -9,7 +9,7 @@ Demonstrates full-stack cloud development, infrastructure as code, and automatio
 This is the first milestone of my **AWS Cloud Resume Challenge** — hosting my resume as a static website on **Amazon S3**.  
 The goal for this phase was simple: get something live on the internet that I fully deployed myself using the AWS CLI.
 
-## What I Built
+### What I Built
 
 In this phase, I used the **AWS Command Line Interface (CLI)** to provision and host a static website entirely from the terminal.
 
@@ -23,9 +23,9 @@ In this phase, I used the **AWS Command Line Interface (CLI)** to provision and 
 My website is publicly accessible over HTTP at:  
 [`http://nick-cloud-resume-1762652576.s3-website-us-east-1.amazonaws.com`](http://nick-cloud-resume-1762652576.s3-website-us-east-1.amazonaws.com)
 
-## Steps I Took
+### Steps I Took
 
-### 1. Create the S3 bucket
+#### 1. Create the S3 bucket
 Used the AWS CLI to create a unique bucket with a timestamp for uniqueness:
 
 ```bash
@@ -37,7 +37,7 @@ aws s3api create-bucket --bucket "$BUCKET" --region "$REGION"
 
 > Note: For `us-east-1`, no `--create-bucket-configuration` flag is required.
 
-### 2. Upload my site files
+#### 2. Upload my site files
 Uploaded the frontend files directly from the CLI:
 
 ```bash
@@ -47,7 +47,7 @@ aws s3 sync "$SITE_DIR" s3://$BUCKET --delete
 
 This mirrors all local files from `frontend/` to S3, deleting any stale files.
 
-### 3. Enable static website hosting
+#### 3. Enable static website hosting
 Enabled S3 static website hosting:
 
 ```bash
@@ -56,7 +56,7 @@ aws s3 website s3://$BUCKET/ --index-document index.html --error-document error.
 
 This tells S3 which file to serve as the homepage and what to display for errors.
 
-### 4. Make the content publicly readable
+#### 4. Make the content publicly readable
 Created a public-read bucket policy so the website could be accessed via browser:
 
 ```bash
@@ -77,7 +77,7 @@ EOF
 aws s3api put-bucket-policy --bucket "$BUCKET" --policy file:///tmp/policy.json
 ```
 
-### 5. Verify the website
+#### 5. Verify the website
 Checked that the website was successfully configured and accessible:
 
 ```bash
@@ -89,7 +89,7 @@ Example endpoint:
 
 Visited the URL in a browser — `index.html` rendered successfully.
 
-## What I Learned
+### What I Learned
 
 | Topic | Key Takeaway |
 |-------|---------------|
@@ -99,19 +99,104 @@ Visited the URL in a browser — `index.html` rendered successfully.
 | **Website endpoint limits** | S3 endpoints are HTTP-only; CloudFront adds HTTPS and CDN performance. |
 | **Automation mindset** | Using the CLI prepares me for Terraform — the same AWS operations, just defined in code. |
 
-## Journal Entry (2025-11-08)
+### Journal Entry (2025-11-08)
 
-> **What I attempted:**  
-> Created an S3 static website using the AWS CLI and uploaded my files.
+**What I attempted:**  
+Created an S3 static website using the AWS CLI and uploaded my files.
 
-> **Issue:**  
-> Encountered `InvalidBucketName` due to uppercase letters and incorrect variable use.
+**Issue:**  
+Encountered `InvalidBucketName` due to uppercase letters and incorrect variable use.
 
-> **Fix:**  
-> Renamed the bucket to a lowercase DNS-compliant name and corrected the CLI syntax.
+**Fix:**  
+Renamed the bucket to a lowercase DNS-compliant name and corrected the CLI syntax.
 
-> **Learning:**  
-> Static website hosting on S3 only supports HTTP; CloudFront will handle HTTPS next.
+**Learning:**  
+Static website hosting on S3 only supports HTTP; CloudFront will handle HTTPS next.
 
-> **Next Step:**  
-> Set up CloudFront for HTTPS.
+**Next Step:**  
+Set up CloudFront for HTTPS.
+
+## Phase 2: HTTPS, DNS, and CloudFront Distribution
+
+This is the second milestone of my AWS Cloud Resume Challenge - securing and distributing my S3-hosted website globally with **CloudFront, Route 53**, and **AWS Certificate Manager (ACM)**. The goal for this phase was to serve my resume securely over HTTPS using a custom domain name.
+
+### What I Built
+
+In this phrase, I configured a **CloudFront distribution** in front of my private S3 bucket, provisioned an **SSL/TLS certificate** with ACM, and mapped my **custom domain** through Route 53.
+
+- Created a **ClouldFront distribution** pointing to my S3 bucket as the origin
+- Used **Origin Access Control (OAC)** to restrict access and keep the bucket private
+- Updated the **bucket policy** to allow **s3:GetObject** only from the CloudFront distribuution ARN
+- Requested a **SSL certiciate** in ACM and validated it via DNS
+- Configured **Route 53** with an Alias **A Record** pointing to the CloudFront distribution
+- Enforced HTTPS-only trafic and verfied SSL certificate deployment
+
+#### Result
+
+My resume website is now live, secure, and globally cached via ClouldFront at [https://nickhalterman.com](https://nickhalterman.com)
+
+### Steps I Took
+
+1. Set up ClouldFront
+
+  - Opened the ClouldFront Console and created a new distribution
+  - Selected my S3 bucket as the origin
+  - Enabled Origin Access Control (OAC) so ClouldFront could fetch private content
+  - Applied the automatically generated bucket policy provided my ClouldFront
+  - Set the Default Root Object to **index.html**
+  - Enabled Redirect HTTP to HTTPS to enforce secure connections
+
+2. Request an SSL certificate
+
+  - Opened AWS Certificate Manager (ACM) in the same region as my ClouldFront distribution (us-east-1)
+  - Requested a public certificate (nickthalterman.com)
+  - Used DNS validation (automatically handled via Route 53)
+  - Waited for the certificate status to change to "Issued"
+
+3. Connect custom domain
+
+  - In ClouldFront, added nickhalterman.com under Alternate Domain Names (CNAMEs)
+  - Selected the newly issued certificate from ACM
+  - Saved and redeployed the distribution
+
+4. Update Route 53 DNS records
+
+  - Opened Route 53 -> Hosted Zones -> nickhalterman.com
+  - Created an A Record
+  - Set it as an Alias Record pointing to the CloudFront distribution
+  - Saved the record and waited for DNS propagation (about 10-15 minutes)
+
+5. Verify deployment
+
+  Once propagation completed, I confirmed:
+
+  - HTTPS lock icon appeared in the browser
+  - Root domain resolved correctly
+  - Content was delivered from CloudFront edge locations
+
+### What I Learned
+
+| Topic | Key Takeaway |
+|-------|---------------|
+| **CloudFront OAC** | Provides secure access to private S3 buckets without making them public. |
+| **Root domain configuration** | CloudFront supports root domains directly via Route 53 Alias records. |
+| **SSL certificates via ACM** | Free, automatically renewable, and easy to validate through Route 53. |
+| **DNS propagation** | Changes may take several minutes before HTTPS works globally. |
+| **Performance boost** | CloudFront caches content worldwide, improving page-load speed. |
+
+### Journal Entry (2025-11-11)
+
+**What I attempted:**  
+Configured CloudFront, ACM, and Route 53 through the AWS Console to serve my resume site securely from **nickhalterman.com**.
+
+**Issue:**  
+Encountered “Access Denied” errors until I applied the correct CloudFront OAC policy to the S3 bucket.
+
+**Fix:**  
+Added the policy generated by CloudFront and confirmed the OAC was properly linked.
+
+**Learning:**  
+Using the AWS Console helped me understand the relationships between CloudFront, ACM, and Route 53 for end-to-end HTTPS delivery.
+
+**Next Step:**  
+Build backend functionality with **Lambda**, **API Gateway**, and **DynamoDB** to implement a visitor counter.

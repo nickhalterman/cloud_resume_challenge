@@ -1,0 +1,21 @@
+{
+  "Comment": "Alias apex and www to CloudFront",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "nickhalterman.com",
+        "Type": "A",
+        "AliasTarget": { "HostedZoneId": "Z2FDTNDATAQYW2", "DNSName": "d10l7py79wjwwr.cloudfront.net", "EvaluateTargetHealth": false }
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "www.nickhalterman.com",
+        "Type": "A",
+        "AliasTarget": { "HostedZoneId": "Z2FDTNDATAQYW2", "DNSName": "d10l7py79wjwwr.cloudfront.net", "EvaluateTargetHealth": false }
+      }
+    }
+  ]
+}
