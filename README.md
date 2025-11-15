@@ -124,7 +124,7 @@ This is the second milestone of my AWS Cloud Resume Challenge - securing and dis
 
 In this phrase, I configured a **CloudFront distribution** in front of my private S3 bucket, provisioned an **SSL/TLS certificate** with ACM, and mapped my **custom domain** through Route 53.
 
-- Created a **ClouldFront distribution** pointing to my S3 bucket as the origin
+- Created a **CloudFront distribution** pointing to my S3 bucket as the origin
 - Used **Origin Access Control (OAC)** to restrict access and keep the bucket private
 - Updated the **bucket policy** to allow **s3:GetObject** only from the CloudFront distribuution ARN
 - Requested a **SSL certiciate** in ACM and validated it via DNS
@@ -133,29 +133,29 @@ In this phrase, I configured a **CloudFront distribution** in front of my privat
 
 #### Result
 
-My resume website is now live, secure, and globally cached via ClouldFront at [https://nickhalterman.com](https://nickhalterman.com)
+My resume website is now live, secure, and globally cached via CloudFront at [https://nickhalterman.com](https://nickhalterman.com)
 
 ### Steps I Took
 
-1. Set up ClouldFront
+1. Set up CloudFront
 
-  - Opened the ClouldFront Console and created a new distribution
+  - Opened the CloudFront Console and created a new distribution
   - Selected my S3 bucket as the origin
-  - Enabled Origin Access Control (OAC) so ClouldFront could fetch private content
-  - Applied the automatically generated bucket policy provided my ClouldFront
+  - Enabled Origin Access Control (OAC) so CloudFront could fetch private content
+  - Applied the automatically generated bucket policy provided my CloudFront
   - Set the Default Root Object to **index.html**
   - Enabled Redirect HTTP to HTTPS to enforce secure connections
 
 2. Request an SSL certificate
 
-  - Opened AWS Certificate Manager (ACM) in the same region as my ClouldFront distribution (us-east-1)
+  - Opened AWS Certificate Manager (ACM) in the same region as my CloudFront distribution (us-east-1)
   - Requested a public certificate (nickthalterman.com)
   - Used DNS validation (automatically handled via Route 53)
   - Waited for the certificate status to change to "Issued"
 
 3. Connect custom domain
 
-  - In ClouldFront, added nickhalterman.com under Alternate Domain Names (CNAMEs)
+  - In CloudFront, added nickhalterman.com under Alternate Domain Names (CNAMEs)
   - Selected the newly issued certificate from ACM
   - Saved and redeployed the distribution
 
@@ -201,22 +201,26 @@ Using the AWS Console helped me understand the relationships between CloudFront,
 **Next Step:**  
 Build backend functionality with **Lambda**, **API Gateway**, and **DynamoDB** to implement a visitor counter.
 
-## Phase 3: Vistor Counter with DynamoDB, Lambda, and API
+## Phase 3: Visitor Counter with DynamoDB, Lambda, and API
 
-This is the third milestone of my AWS Clould Resume Challenge - building the backend visitor counter using **AWS Lambda, DynamoDB, and a public API endpoint**. The goal for this phase was to create serverless backend logic that tracks page views and returns the updated count to my frontend.
+This is the third milestone of my AWS Cloud Resume Challenge - building the backend visitor counter using **AWS Lambda, DynamoDB, and a public API endpoint**. The goal for this phase was to create serverless backend logic that tracks page views and returns the updated count to my frontend.
 
 ### What I Built
 
 In this phase, I implemented a fully serverless backend pipeline:
 
-- Created a **DynamoDB table** to store a single record containing the vistor count
+- Created a **DynamoDB table** to store a single record containing the visitor count
 - Wrote a **Lambda function** in Python that retrieves, increments and updates the count
 - Enabled a **Lambda Function URL** so the frontend can call the function directly
 - Added **JavaScript** to my site to fetch the updated count and display it live
 
 #### Result
 
+<<<<<<< HEAD
 My website now shows a real-time vistor counter sourced directly from DynamoDB and updated every time the page loads.
+=======
+My website now shows a real-time visitor counter sourced directly from DynamoDB an dupdated every time the page loads.
+>>>>>>> bd3af65 (Fix typos in README.md)
 
 ### Steps I Took
 
@@ -234,7 +238,7 @@ My website now shows a real-time vistor counter sourced directly from DynamoDB a
   1. Get the current view count from DynamoDB
   2. Add +1
   3. Write the new value back to the table
-  4. Return the updated. count as the response
+  4. Return the updated count as the response
 
   I chose to keep both the "get" and "update" logic in one function for simplicity.
 
