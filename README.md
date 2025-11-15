@@ -254,9 +254,9 @@ My website now shows a real-time vistor counter sourced directly from DynamoDB a
 
   In index.js I added:
 
-    - A fetch() call to the Lambda Function URL
-    - Logic to update an HTML element with a returned view count
-    - A fallbac kmessage ("Couldn't read views") for error handling
+  - A fetch() call to the Lambda Function URL
+  - Logic to update an HTML element with a returned view count
+  - A fallbac kmessage ("Couldn't read views") for error handling
 
   Then I created a matching span in my index.html to display the value.
 
