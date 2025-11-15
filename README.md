@@ -129,14 +129,14 @@ This is the second milestone of my AWS Cloud Resume Challenge - securing and dis
 
 ### What I Built
 
-In this phrase, I configured a **CloudFront distribution** in front of my private S3 bucket, provisioned an **SSL/TLS certificate** with ACM, and mapped my **custom domain** through Route 53.
+In this phase, I configured a **CloudFront distribution** in front of my private S3 bucket, provisioned an **SSL/TLS certificate** with ACM, and mapped my **custom domain** through Route 53.
 
 - Created a **CloudFront distribution** pointing to my S3 bucket as the origin
 - Used **Origin Access Control (OAC)** to restrict access and keep the bucket private
-- Updated the **bucket policy** to allow **s3:GetObject** only from the CloudFront distribuution ARN
-- Requested a **SSL certiciate** in ACM and validated it via DNS
-- Configured **Route 53** with an Alias **A Record** pointing to the CloudFront distribution
-- Enforced HTTPS-only trafic and verfied SSL certificate deployment
+- Updated the **bucket policy** to allow **s3:GetObject** only from the CloudFront distribution ARN
+- Requested an **SSL certificate** in ACM and validated it via DNS
+- Configured **Route 53** with an Alias **A record** pointing to the CloudFront distribution
+- Enforced HTTPS-only traffic and verified SSL certificate deployment
 
 #### Result
 
@@ -149,7 +149,7 @@ My resume website is now live, secure, and globally cached via CloudFront at [ht
   - Opened the CloudFront Console and created a new distribution
   - Selected my S3 bucket as the origin
   - Enabled Origin Access Control (OAC) so CloudFront could fetch private content
-  - Applied the automatically generated bucket policy provided my CloudFront
+  - Applied the automatically generated bucket policy provided by CloudFront
   - Set the Default Root Object to **index.html**
   - Enabled Redirect HTTP to HTTPS to enforce secure connections
 
@@ -169,13 +169,13 @@ My resume website is now live, secure, and globally cached via CloudFront at [ht
 4. Update Route 53 DNS records
 
   - Opened Route 53 -> Hosted Zones -> nickhalterman.com
-  - Created an A Record
-  - Set it as an Alias Record pointing to the CloudFront distribution
+  - Created an A record
+  - Set it as an Alias record pointing to the CloudFront distribution
   - Saved the record and waited for DNS propagation (about 10-15 minutes)
 
 5. Verify deployment
 
-  Once propagation completed, I confirmed:
+  Once propagation was complete, I confirmed:
 
   - HTTPS lock icon appeared in the browser
   - Root domain resolved correctly
@@ -217,20 +217,20 @@ This is the third milestone of my AWS Cloud Resume Challenge - building the back
 In this phase, I implemented a fully serverless backend pipeline:
 
 - Created a **DynamoDB table** to store a single record containing the visitor count
-- Wrote a **Lambda function** in Python that retrieves, increments and updates the count
+- Wrote a **Lambda function** in Python that retrieves, increments, and updates the count
 - Enabled a **Lambda Function URL** so the frontend can call the function directly
 - Added **JavaScript** to my site to fetch the updated count and display it live
 
 #### Result
-My website now shows a real-time visitor counter sourced directly from DynamoDB an dupdated every time the page loads.
+My website now shows a real-time visitor counter sourced directly from DynamoDB, and it is updated every time the page loads.
 
 
 ### Steps I Took
 
 1. Create the DynamoDB table
 
-  - Primary Key: ID (Number)
-  - Item: {"ID": 0, "views": initial number}
+  - Primary Key: ID (String)
+  - Item: {"ID": "0", "views": initial number}
 
   This simple schema allowed me to store and update a single counter value.
 
@@ -252,7 +252,7 @@ My website now shows a real-time visitor counter sourced directly from DynamoDB 
   To allow my frontend to call the Lambda, I:
 
    - Enabled a **Function URL**
-   - Set **CORS** to temporarily allow all orgins during testing
+   - Set **CORS** to temporarily allow all origins during testing
    - Verified that hitting the URL directly incremented the counter
 
    Once it worked as expected, the CORS access became restricted only to my domain.
@@ -288,7 +288,7 @@ Built the backend visitor counter using DynamoDB, Lambda, and a Function URL so 
 At first the website couldn't read the counter and showed “Couldn’t read views” due to missing CORS configuration.
 
 **Fix:**  
-Enabled CORS on the Lambda Function URL and redeployed the function. Once the frontend pointed to the correct URL, the counter updated properly.
+Enabled CORS on the Lambda Function URL and redeployed the function. Once the frontend was pointed to the correct URL, the counter updated properly.
 
 **Learning:**  
 This phase helped me understand how serverless APIs work behind the scenes and how Lambda interacts with DynamoDB using **boto3**.
