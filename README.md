@@ -216,7 +216,7 @@ In this phase, I implemented a fully serverless backend pipeline:
 
 #### Result
 
-My website now shows a real-time vistor counter sourced directly from DynamoDB an dupdated every time the page loads.
+My website now shows a real-time vistor counter sourced directly from DynamoDB and updated every time the page loads.
 
 ### Steps I Took
 
