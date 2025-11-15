@@ -231,7 +231,7 @@ My website now shows a real-time vistor counter sourced directly from DynamoDB a
 
   I wrote the Lambda function using **boto3** to:
 
-  1. Get teh current view count from DynamoDB
+  1. Get the current view count from DynamoDB
   2. Add +1
   3. Write the new value back to the table
   4. Return the updated. count as the response
