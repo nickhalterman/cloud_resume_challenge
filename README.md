@@ -200,3 +200,92 @@ Using the AWS Console helped me understand the relationships between CloudFront,
 
 **Next Step:**  
 Build backend functionality with **Lambda**, **API Gateway**, and **DynamoDB** to implement a visitor counter.
+
+## Phase 3: Vistor Counter with DynamoDB, Lambda, and API
+
+This is the third milestone of my AWS Clould Resume Challenge - building the backend visitor counter using **AWS Lambda, DynamoDB, and a public API endpoint**. The goal for this phase was to create serverless backend logic that tracks page views and returns the updated count to my frontend.
+
+### What I Built
+
+In this phase, I implemented a fully serverless backend pipeline:
+
+- Created a **DynamoDB table** to store a single record containing the vistor count
+- Wrote a **Lambda function** in Python that retrieves, increments and updates the count
+- Enabled a **Lambda Function URL** so the frontend can call the function directly
+- Added **JavaScript** to my site to fetch the updated count and display it live
+
+#### Result
+
+My website now shows a real-time vistor counter sourced directly from DynamoDB an dupdated every time the page loads.
+
+### Steps I Took
+
+1. Create the DynamoDB table
+
+  - Primary Key: ID (Number)
+  - Item: {"ID": 0, "views": initial number}
+
+  This simple schema allowed me to store and update a single counter value.
+
+2. Build the Lamda function (Python)
+
+  I wrote the Lambda function using **boto3** to:
+
+  1. Get teh current view count from DynamoDB
+  2. Add +1
+  3. Write the new value back to the table
+  4. Return the updated. count as the response
+
+  I chose to keep both the "get" and "update" logic in one function for simplicity.
+
+  After writing the code, I deployed the function and confirmed it returned data correctly.
+
+3. Enable Lambda Function URL (API Endpoint)
+
+  To allow my frontend to call the Lambda, I:
+
+   - Enabled a **Function URL**
+   - Set **CORS** to temporarily allow all orgins during testing
+   - Verified that hitting the URL directly incremented the counter
+
+   Once it worked as expected, the CORS access became restricted only to my domain.
+
+4. Connect frontend with JavaScript
+
+  In index.js I added:
+
+    - A fetch() call to the Lambda Function URL
+    - Logic to update an HTML element with a returned view count
+    - A fallbac kmessage ("Couldn't read views") for error handling
+
+  Then I created a matching span in my index.html to display the value.
+
+  Once everything was connected, refreshing the site incremented the counter in real time.
+
+### What I Learned
+
+| Topic | Key Takeaway |
+|-------|---------------|
+| **Lambda + DynamoDB workflow** | A single small Lambda function can read and update database items instantly. |
+| **Understanding Function URLs** | Function URLs simplify API access without needing API Gateway for basic use cases. |
+| **CORS behavior** | If CORS isn't configured correctly, the browser cannot read the response even if the API works. |
+| **Frontend-backend integration** | A few lines of JavaScript can connect static sites to serverless APIs seamlessly. |
+| **Atomic updates** | Even without transactions, DynamoDB handles simple counter updates efficiently. |
+
+### Journal Entry (2025-11-14)
+
+**What I attempted:**  
+Built the backend visitor counter using DynamoDB, Lambda, and a Function URL so my resume site could display real-time views.
+
+**Issue:**  
+At first the website couldn't read the counter and showed “Couldn’t read views” due to missing CORS configuration.
+
+**Fix:**  
+Enabled CORS on the Lambda Function URL and redeployed the function. Once the frontend pointed to the correct URL, the counter updated properly.
+
+**Learning:**  
+This phase helped me understand how serverless APIs work behind the scenes and how Lambda interacts with DynamoDB using **boto3**.
+
+**Next Step:**  
+Begin writing backend tests, convert this setup to Infrastructure as Code, and configure CI/CD for automated deployment.
+  
