@@ -9,7 +9,7 @@ Demonstrates full-stack cloud development, infrastructure as code, and automatio
 - [Overview](#aws-cloud-resume-challenge)
 - [Phase 1 – Static Website on S3](#phase-1-static-website-on-s3)
 - [Phase 2 – HTTPS, DNS, and CloudFront Distribution](#phase-2-https-dns-and-cloudfront-distribution)
-- [Phase 3 – Vistor Counter with DynamoDB, Lambda, and API](#phase-3-vistor-counter-with-dynamodb-lambda-and-api)
+- [Phase 3 – Visitor Counter with DynamoDB, Lambda, and API](#phase-3-visitor-counter-with-dynamodb-lambda-and-api)
 
 ## Phase 1: Static Website on S3
 
@@ -222,12 +222,8 @@ In this phase, I implemented a fully serverless backend pipeline:
 - Added **JavaScript** to my site to fetch the updated count and display it live
 
 #### Result
-
-<<<<<<< HEAD
-My website now shows a real-time vistor counter sourced directly from DynamoDB and updated every time the page loads.
-=======
 My website now shows a real-time visitor counter sourced directly from DynamoDB an dupdated every time the page loads.
->>>>>>> bd3af65 (Fix typos in README.md)
+
 
 ### Steps I Took
 
