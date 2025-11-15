@@ -227,7 +227,7 @@ My website now shows a real-time vistor counter sourced directly from DynamoDB a
 
   This simple schema allowed me to store and update a single counter value.
 
-2. Build the Lamda function (Python)
+2. Build the Lambda function (Python)
 
   I wrote the Lambda function using **boto3** to:
 
